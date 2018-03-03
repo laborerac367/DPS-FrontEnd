@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
-import { UserService } from './user-service/user.service';
+
+import { UserService } from './user.service';
+import { EventService } from './event.service';
 
 @NgModule({
   declarations: [
-    
   ],
   imports: [
-    
   ],
-  providers: [UserService],
-  exports: []
+  providers: [
+    UserService,
+    EventService
+  ],
+  exports: [
+  ]
 })
 export class CoreModule { }
