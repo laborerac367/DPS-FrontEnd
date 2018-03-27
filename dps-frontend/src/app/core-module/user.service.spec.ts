@@ -1,38 +1,25 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable'
 import { UserService } from './user.service';
+// import { HttpClient } from "@angular/common/http";
 
 describe('UserService', () => {
-    const mockHttp = {
+    let mockHttp = {
         get: jasmine.createSpy().and.callFake(() => {
-            return {
-                do: () => {},
-                map: () => {}
-            };
-        })
-    };
-    const mockAuth = {
-
-    };
-    const mockToastr = {
-        error: jasmine.createSpy().and.callFake((message, title) => {
-            return;
-        }),
-        success: jasmine.createSpy().and.callFake((message, title) => {
-            return;
+            return { do: () => {}}
         })
     };
     let service;
 
     beforeEach(() => {
-        service = new UserService(<any>mockHttp, <any>mockAuth, <any>mockToastr);
+        service = new UserService(<any>mockHttp);
     });
 
     it('login should make the correct http call', () => {
-        const user = {
+        let user = {
             email: 'test@email.com',
             password: 'password'
         };
         service.login(user);
         expect(mockHttp.get).toHaveBeenCalledWith('api/user/authenticate', jasmine.any(Object));
-    });
-});
+    })
+})

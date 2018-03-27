@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { UserService } from './user.service';
 import { EventService } from './event.service';
-import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
@@ -11,8 +10,7 @@ import { AuthService } from './auth.service';
   ],
   providers: [
     UserService,
-    EventService,
-    AuthService
+    EventService
   ],
   exports: [
   ]
