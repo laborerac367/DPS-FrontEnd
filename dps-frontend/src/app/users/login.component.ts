@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 
 import { UserService } from '../core-module/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-modal-content',
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
@@ -17,11 +16,16 @@ export class LoginComponent implements OnInit {
 
     // registerForm: FormGroup;
 
-    constructor(public userService: UserService, public modalRef: BsModalRef, public router: Router) {}
+    constructor(
+        public userService: UserService,
+        public modalRef: BsModalRef,
+        public router: Router,
+        private fb: FormBuilder
+    ) {}
 
     ngOnInit() {
-        let email = new FormControl();
-        let password = new FormControl();
+        const email = new FormControl();
+        const password = new FormControl();
         this.loginForm = new FormGroup({
             email: email,
             password: password
@@ -33,13 +37,12 @@ export class LoginComponent implements OnInit {
         const phoneNumber = new FormControl('', [Validators.required, Validators.minLength(10)]);
         const createPassword = new FormControl('', [Validators.required]);
         const verifyPassword = new FormControl('', [Validators.required]);
-        this.registerForm = new FormGroup({
-            emailReg: emailReg,
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-            createPassword: createPassword,
-            verifyPassword: verifyPassword
+        this.registerForm = this.fb.group({
+            email: ['', [Validators.email, Validators.required]],
+            name: ['', [Validators.required]],
+            phoneNumber: ['', [Validators.required]],
+            password: ['', [Validators.required]],
+            passwordVerify: ['', [Validators.required]]
         });
     }
 
@@ -55,9 +58,20 @@ export class LoginComponent implements OnInit {
 
     register(registerForm): void {
         // TODO: need to check to make sure that: all fields have entries, email is not already registered, etc..
-     console.log(registerForm.value);
-     
-        
+        if (registerForm.password !== registerForm.passwordVerify) {
+            // TODO: Let user know they aren't equal? Or maybe display in form and not allow submission instead.
+        } else {
+            const registerVals = Object.assign({}, registerForm);
+            delete registerVals.passwordVerify;
+            this.userService.register(registerVals).subscribe(
+                resp => {
+                    this.modalRef.hide();
+                },
+                err => {
+
+                }
+            );
+        }
     }
 
     close(): void {

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { UserService } from '../core-module/user.service';
 import { LoginComponent } from '../users/login.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
+import { AuthService } from '../core-module/auth.service';
+import { MessageService } from '../message/message.service';
 
 @Component({
     selector: 'app-main-menu',
@@ -13,7 +14,10 @@ export class MainMenuComponent {
 
     collapsed: Boolean = true;
 
-    constructor(private modalService: BsModalService, public userService: UserService, public router: Router) {}
+    constructor(private modalService: BsModalService,
+                public authService: AuthService,
+                public router: Router,
+                private messageService: MessageService) {}
 
     login() {
         this.modalService.show(LoginComponent);

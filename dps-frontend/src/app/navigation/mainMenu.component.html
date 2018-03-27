@@ -14,7 +14,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" [ngClass]="{ 'in': !collapsed}">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <!-- <li><a href="#">Link</a></li>
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -24,10 +24,36 @@
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Separated link</a></li>
             </ul>
-            </li>
-            <li><span *ngIf="userService.isAuthorized(); then authorized else unauthorized"></span></li>
-            <ng-template #unauthorized><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></ng-template>
-            <ng-template #authorized><a routerLink="/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></ng-template>
+            </li> -->
+            <span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span>
+            <ng-template #unauthorized><li><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li></ng-template>
+            <ng-template #authorized>
+                <li>
+                    <a [routerLink]="['/messages']" ><span class="glyphicon glyphicon-envelope" aria-hidden="true"><span class="badge" *ngIf="messageService.numNew > 0">{{ messageService.numNew }}</span></span></a>
+                </li>
+                <li class="dropdown" dropdown>
+                    <a href dropdownToggle (click)="false" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+                    <ul *dropdownMenu class="dropdown-menu">
+                        <li role="menuitem"><a [routerLink]="['/settings']">Settings</a></li>
+                        <li role="menuitem"><a (click)="authService.logout()" [routerLink]="['']">Logout</a></li>
+                        <ng-container *ngIf="authService.getPermissions()?.admin">
+                            <li role="separator" class="divider" dropdown-divider></li>
+                            <li role="menuitem"><a [routerLink]="['event', 'edit', '-1']">Add Event</a></li>
+                        </ng-container>
+                    </ul>
+                </li>
+                
+                <!-- <span dropdown>
+                    <a href dropdownToggle (click)="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </a>
+                    <ul *dropdownMenu class="dopdown-menu">
+                        <li>
+                            <a [routerLink]="['/settings']">Settings</a>
+                        </li>
+                    </ul>
+                </span> -->
+            </ng-template>
         </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

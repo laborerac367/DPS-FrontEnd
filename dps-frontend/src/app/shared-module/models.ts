@@ -1,28 +1,49 @@
 export interface Event {
-    id: Number;
+    id: number;
     name: String;
     startTime: Date;
     endTime: Date;
     description: String;
-    volunteerGroups: VolunteerGroup[];
+    jobs: Job[];
 }
 
-export interface VolunteerGroup {
-    title: String;
+export interface Job {
+    id: number;
+    name: String;
     startTime: Date;
     endTime: Date;
-    volunteers?: Volunteer[];
+    volunteer: Volunteer;
 }
 
 export interface Volunteer {
+    id: number;
     name: String;
-    email: String;
-    startTime: Date;
-    endTime: Date;
+    email?: String;
 }
 
 export interface User {
+    id: number;
     name: String;
     email: String;
     phoneNumber: String;
+}
+
+export interface Permissions {
+    admin: Boolean;
+    employee: Boolean;
+    volunteer: Boolean;
+    developer: Boolean;
+}
+
+export interface Conversation {
+    id: number;
+    with: string;
+    numNew: number;
+    messages: Message[];
+}
+
+export interface Message {
+    from: string;
+    message: string;
+    time: Date;
 }
